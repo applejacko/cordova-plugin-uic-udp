@@ -20,6 +20,7 @@
     
 	<!-- iOS-specific Objective-C source code ************************************************************************************************** -->
 	
+	<!--
 	<platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="UDPTransmit">
@@ -29,6 +30,7 @@
         <header-file src="src/ios/UDPTransmit.h" />
         <source-file src="src/ios/UDPTransmit.m" />
 	</platform>
+	-->
     
 	<!-- Android-specific Java source code ***************************************************************************************************** -->
 	

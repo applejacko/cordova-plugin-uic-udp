@@ -7,10 +7,6 @@
     <description>Cordova UDP Transmit Plugin</description>
     <license>IDOT/UIC</license>
     <keywords>cordova,UDP,udp</keywords>
-	<!--
-	 <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git</repo>
-	 <issue>https://issues.apache.org/jira/browse/CB/component/12320642</issue>
-	 -->
 	
 	<!-- The common JavaScript file for all mobile platforms -------------------->
 	

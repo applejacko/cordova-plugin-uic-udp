@@ -16,12 +16,5 @@ import android.util.Log;
 import android.util.SparseArray;
 
 public class UDPTransmit extends CordovaPlugin {
-	private static final String TAG = Datagram.class.getSimpleName();
-	
-    SparseArray<DatagramSocket> m_sockets;
-    SparseArray<SocketListener> m_listeners;
-	
-    public UDPTransmit() {
-    }
 	
 }

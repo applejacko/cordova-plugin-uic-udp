@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     id="edu.uic.udptransmit"
     version="0.1.0">
     <name>UDPPlugin</name>
-    <description>UDP Plugin which supports node.js dgram API</description>
+    <description>Apples banana cherries</description>
     <license>UIC</license>
-    <keywords>UDP, Multicast, dgram</keywords>
+    <keywords>UDP</keywords>
 	
     <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
     <js-module src="www/udptransmit.js" name="updtransmit">

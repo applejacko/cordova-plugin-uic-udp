@@ -10,7 +10,7 @@
     <keywords>UDP, Multicast, Datagram, dgram</keywords>
 	
     <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
-    <js-module src="www/datagram.js" name="datagram">
+    <js-module src="www/udptransmit.js" name="updtransmit">
     </js-module>
 	
     <platform name="android">

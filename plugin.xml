@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="com.travelmidwest.updtransmit" version="0.0.1">
+    
+	<!-- Metadata --------------------------------------------------------------->
+	
+	<name>UDPTransmit</name>
+    <description>Cordova UDP Transmit Plugin</description>
+    <license>IDOT/UIC</license>
+    <keywords>cordova,UDP,udp</keywords>
+	<!--
+	<repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git</repo>
+    <issue>https://issues.apache.org/jira/browse/CB/component/12320642</issue>
+	 -->
+
+	<!-- The common JavaScript file for all mobile platforms -------------------->
+	
+	<js-module src="www/UDPTransmit.js" name="updtransmit">
+        <clobbers target="udptransmit" />
+    </js-module>
+    
+	<!-- iOS-specific Objective-C source code ----------------------------------->
+	
+	<platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="UDPTransmit">
+                <param name="ios-package" value="CDVUDPTransmit"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CDVUDPTransmit.h" />
+        <source-file src="src/ios/CDVUDPTransmit.m" />
+	</platform>
+    
+	<!-- Android-specific Java source code -------------------------------------->
+	
+	<platform name="android">
+        <config-file target="config.xml" parent="/*">
+			<feature name="UDPTransmit">
+				<param name="android-package" value="CDVUDPTransmit"/>
+			</feature>
+        </config-file>
+        <source-file src="src/android/CDVUDPTransmit.java" />
+	</platform>
+
+<!------------------------------------------------------------------------------->
+
+</plugin>

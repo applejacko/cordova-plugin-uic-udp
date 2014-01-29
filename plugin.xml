@@ -2,15 +2,33 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="edu.uic.udptransmit"
-    version="0.1.0">
-    <name>UDP Plugin</name>
+    version="0.0.1">
+	
+	<!-- Metadata ================================================================== -->
+
+    <name>UDPTransmit</name>
     <description>UDP Plugin which supports UDP API</description>
     <license>UIC</license>
-    <keywords>UDP</keywords>
+    <keywords>UDP,udp</keywords>
 	
-    <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
-    <js-module src="www/udptransmit.js" name="udptransmit">
+    <!-- The common JavaScript file for all mobile platforms ======================= -->
+
+	<js-module src="www/udptransmit.js" name="udptransmit">
     </js-module>
+	
+	<!-- iOS-specific Objective-C source code ====================================== -->
+
+	<platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="UDPTransmit">
+                <param name="ios-package" value="CDVUDPTransmit"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CDVUDPTransmit.h" />
+        <source-file src="src/ios/CDVUDPTransmit.m" />
+	</platform>
+	
+	<!-- Android-specific Java source code ========================================= -->
 	
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
@@ -23,5 +41,7 @@
 		
 		<source-file src="src/android/UDPTransmit.java" target-dir="src/edu/uic/udptransmit/" />
     </platform>
-	
+
+	<!-- =========================================================================== -->
+
 </plugin>

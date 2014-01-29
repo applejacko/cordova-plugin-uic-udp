@@ -14,6 +14,7 @@
     <!-- The common JavaScript file for all mobile platforms ======================= -->
 
 	<js-module src="www/udptransmit.js" name="udptransmit">
+		<clobbers target="udp.transmit"/>
     </js-module>
 	
 	<!-- iOS-specific Objective-C source code ====================================== -->

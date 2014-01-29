@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="edu.uic.updtransmit" version="0.0.1">
     
-	<!-- Metadata ----------------------------------------------------------------------- -->
+	<!-- Metadata *************************************************************** -->
 	
 	<name>UDPTransmit</name>
     <description>Cordova UDP Transmit Plugin</description>

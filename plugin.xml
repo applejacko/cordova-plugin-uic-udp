@@ -1,48 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="edu.uic.updtransmit" version="0.0.1">
-    
-	<!-- Metadata ****************************************************************************************************************************** -->
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="in.girish.datagram"
+    version="0.1.0">
+    <name>UDP Plugin</name>
+    <description>UDP Plugin which supports node.js dgram API</description>
+    <license>MIT</license>
+    <keywords>UDP, Multicast, Datagram, dgram</keywords>
 	
-	<name>UDPTransmit</name>
-    <description>Cordova UDP Transmit Plugin</description>
-    <license>IDOT/UIC</license>
-    <keywords>cordova,UDP,udp</keywords>
-	<!--
-	 <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git</repo>
-	 <issue>https://issues.apache.org/jira/browse/CB/component/12320642</issue>
-	 -->
-	
-	<!-- The common JavaScript file for all mobile platforms *********************************************************************************** -->
-	
-	<js-module src="www/UDPTransmit.js" name="updtransmit">
-        <clobbers target="udptransmit" />
+    <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
+    <js-module src="www/datagram.js" name="datagram">
     </js-module>
-    
-	<!-- iOS-specific Objective-C source code ************************************************************************************************** -->
 	
-	<!--
-	<platform name="ios">
-        <config-file target="config.xml" parent="/*">
-            <feature name="UDPTransmit">
-                <param name="ios-package" value="CDVUDPTransmit"/>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <!-- This is the name used for service name in cordova.exec -->
+            <feature name="Datagram" >
+                <!-- This tells cordova which java class to load for this plugin -->
+                <param name="android-package" value="in.girish.datagram.Datagram"/>
             </feature>
         </config-file>
-        <header-file src="src/ios/UDPTransmit.h" />
-        <source-file src="src/ios/UDPTransmit.m" />
-	</platform>
-	-->
-    
-	<!-- Android-specific Java source code ***************************************************************************************************** -->
-	
-	<platform name="android">
-        <config-file target="config.xml" parent="/*">
-			<feature name="UDPTransmit">
-				<param name="android-package" value="CDVUDPTransmit"/>
-			</feature>
-        </config-file>
-        <source-file src="src/android/UDPTransmit.java" />
-	</platform>
-	
-	<!-- *************************************************************************************************************************************** -->
+		
+		<source-file src="src/android/Datagram.java" target-dir="src/in/girish/datagram/" />
+    </platform>
 	
 </plugin>

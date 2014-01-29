@@ -17,11 +17,11 @@
             <!-- This is the name used for service name in cordova.exec -->
             <feature name="Datagram" >
                 <!-- This tells cordova which java class to load for this plugin -->
-                <param name="android-package" value="edu.uic.datagram.Datagram"/>
+                <param name="android-package" value="edu.uic.udptransmit.UDPTransmit"/>
             </feature>
         </config-file>
 		
-		<source-file src="src/android/Datagram.java" target-dir="src/edu/uic/datagram/" />
+		<source-file src="src/android/UDPTransmit.java" target-dir="src/edu/uic/udptransmit/" />
     </platform>
 	
 </plugin>

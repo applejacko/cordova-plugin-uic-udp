@@ -1,429 +1,146 @@
-/*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
-
-         http://www.apache.org/licenses/LICENSE-2.0
-
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
-*/
 package edu.uic.udptransmit;
 
-//import org.apache.cordova.CallbackContext;
-//import org.apache.cordova.CordovaInterface;
-//import org.apache.cordova.CordovaPlugin;
-//import org.apache.cordova.PluginResult;
-//import org.json.JSONArray;
-//import org.json.JSONException;
-//import org.json.JSONObject;
-//import android.app.AlertDialog;
-//import android.app.ProgressDialog;
-//import android.content.DialogInterface;
-//import android.media.Ringtone;
-//import android.media.RingtoneManager;
-//import android.net.Uri;
-//import android.widget.EditText;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.MulticastSocket;
 
-/**
- * This class provides access to notifications on the device.
- */
-public class UDPTransmit extends CordovaPlugin {
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-//    public int confirmResult = -1;
-//    public ProgressDialog spinnerDialog = null;
-//    public ProgressDialog progressDialog = null;
+import android.util.Log;
+import android.util.SparseArray;
 
-    /**
-     * Constructor.
-     */
-    public UDPTransmit() {
+public class Datagram extends CordovaPlugin {
+	private static final String TAG = Datagram.class.getSimpleName();
+	
+    SparseArray<DatagramSocket> m_sockets;
+    SparseArray<SocketListener> m_listeners;
+	
+    public Datagram() {
+        m_sockets = new SparseArray<DatagramSocket>();
+        m_listeners = new SparseArray<SocketListener>();
     }
-
-//    /**
-//     * Executes the request and returns PluginResult.
-//     *
-//     * @param action            The action to execute.
-//     * @param args              JSONArray of arguments for the plugin.
-//     * @param callbackContext   The callback context used when calling back into JavaScript.
-//     * @return                  True when the action was valid, false otherwise.
-//     */
-//    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-//        if (action.equals("beep")) {
-//            this.beep(args.getLong(0));
-//        }
-//        else if (action.equals("alert")) {
-//            this.alert(args.getString(0), args.getString(1), args.getString(2), callbackContext);
-//            return true;
-//        }
-//        else if (action.equals("confirm")) {
-//            this.confirm(args.getString(0), args.getString(1), args.getJSONArray(2), callbackContext);
-//            return true;
-//        }
-//        else if (action.equals("prompt")) {
-//            this.prompt(args.getString(0), args.getString(1), args.getJSONArray(2), args.getString(3), callbackContext);
-//            return true;
-//        }
-//        else if (action.equals("activityStart")) {
-//            this.activityStart(args.getString(0), args.getString(1));
-//        }
-//        else if (action.equals("activityStop")) {
-//            this.activityStop();
-//        }
-//        else if (action.equals("progressStart")) {
-//            this.progressStart(args.getString(0), args.getString(1));
-//        }
-//        else if (action.equals("progressValue")) {
-//            this.progressValue(args.getInt(0));
-//        }
-//        else if (action.equals("progressStop")) {
-//            this.progressStop();
-//        }
-//        else {
-//            return false;
-//        }
-//
-//        // Only alert and confirm are async.
-//        callbackContext.success();
-//        return true;
-//    }
-//
-//    //--------------------------------------------------------------------------
-//    // LOCAL METHODS
-//    //--------------------------------------------------------------------------
-//
-//    /**
-//     * Beep plays the default notification ringtone.
-//     *
-//     * @param count     Number of times to play notification
-//     */
-//    public void beep(long count) {
-//        Uri ringtone = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        Ringtone notification = RingtoneManager.getRingtone(this.cordova.getActivity().getBaseContext(), ringtone);
-//
-//        // If phone is not set to silent mode
-//        if (notification != null) {
-//            for (long i = 0; i < count; ++i) {
-//                notification.play();
-//                long timeout = 5000;
-//                while (notification.isPlaying() && (timeout > 0)) {
-//                    timeout = timeout - 100;
-//                    try {
-//                        Thread.sleep(100);
-//                    } catch (InterruptedException e) {
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    /**
-//     * Builds and shows a native Android alert with given Strings
-//     * @param message           The message the alert should display
-//     * @param title             The title of the alert
-//     * @param buttonLabel       The label of the button
-//     * @param callbackContext   The callback context
-//     */
-//    public synchronized void alert(final String message, final String title, final String buttonLabel, final CallbackContext callbackContext) {
-//
-//        final CordovaInterface cordova = this.cordova;
-//
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//
-//                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity());
-//                dlg.setMessage(message);
-//                dlg.setTitle(title);
-//                dlg.setCancelable(true);
-//                dlg.setPositiveButton(buttonLabel,
-//                        new AlertDialog.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 0));
-//                            }
-//                        });
-//                dlg.setOnCancelListener(new AlertDialog.OnCancelListener() {
-//                    public void onCancel(DialogInterface dialog)
-//                    {
-//                        dialog.dismiss();
-//                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 0));
-//                    }
-//                });
-//
-//                dlg.create();
-//                dlg.show();
-//            };
-//        };
-//        this.cordova.getActivity().runOnUiThread(runnable);
-//    }
-//
-//    /**
-//     * Builds and shows a native Android confirm dialog with given title, message, buttons.
-//     * This dialog only shows up to 3 buttons.  Any labels after that will be ignored.
-//     * The index of the button pressed will be returned to the JavaScript callback identified by callbackId.
-//     *
-//     * @param message           The message the dialog should display
-//     * @param title             The title of the dialog
-//     * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
-//     * @param callbackContext   The callback context.
-//     */
-//    public synchronized void confirm(final String message, final String title, final JSONArray buttonLabels, final CallbackContext callbackContext) {
-//
-//        final CordovaInterface cordova = this.cordova;
-//
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity());
-//                dlg.setMessage(message);
-//                dlg.setTitle(title);
-//                dlg.setCancelable(true);
-//
-//                // First button
-//                if (buttonLabels.length() > 0) {
-//                    try {
-//                        dlg.setNegativeButton(buttonLabels.getString(0),
-//                            new AlertDialog.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 1));
-//                                }
-//                            });
-//                    } catch (JSONException e) { }
-//                }
-//
-//                // Second button
-//                if (buttonLabels.length() > 1) {
-//                    try {
-//                        dlg.setNeutralButton(buttonLabels.getString(1),
-//                            new AlertDialog.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 2));
-//                                }
-//                            });
-//                    } catch (JSONException e) { }
-//                }
-//
-//                // Third button
-//                if (buttonLabels.length() > 2) {
-//                    try {
-//                        dlg.setPositiveButton(buttonLabels.getString(2),
-//                            new AlertDialog.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                  dialog.dismiss();
-//                                  callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 3));
-//                                }
-//                            });
-//                    } catch (JSONException e) { }
-//                }
-//                dlg.setOnCancelListener(new AlertDialog.OnCancelListener() {
-//                    public void onCancel(DialogInterface dialog)
-//                    {
-//                        dialog.dismiss();
-//                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, 0));
-//                    }
-//                });
-//
-//                dlg.create();
-//                dlg.show();
-//            };
-//        };
-//        this.cordova.getActivity().runOnUiThread(runnable);
-//    }
-//
-//    /**
-//     * Builds and shows a native Android prompt dialog with given title, message, buttons.
-//     * This dialog only shows up to 3 buttons.  Any labels after that will be ignored.
-//     * The following results are returned to the JavaScript callback identified by callbackId:
-//     *     buttonIndex			Index number of the button selected
-//     *     input1				The text entered in the prompt dialog box
-//     *
-//     * @param message           The message the dialog should display
-//     * @param title             The title of the dialog
-//     * @param buttonLabels      A comma separated list of button labels (Up to 3 buttons)
-//     * @param callbackContext   The callback context.
-//     */
-//    public synchronized void prompt(final String message, final String title, final JSONArray buttonLabels, final String defaultText, final CallbackContext callbackContext) {
-//    	
-//        final CordovaInterface cordova = this.cordova;
-//        final EditText promptInput =  new EditText(cordova.getActivity());
-//        promptInput.setHint(defaultText);
-//       
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                AlertDialog.Builder dlg = new AlertDialog.Builder(cordova.getActivity());
-//                dlg.setMessage(message);
-//                dlg.setTitle(title);
-//                dlg.setCancelable(true);
-//                
-//                dlg.setView(promptInput);
-//                
-//                final JSONObject result = new JSONObject();
-//                
-//                // First button
-//                if (buttonLabels.length() > 0) {
-//                    try {
-//                        dlg.setNegativeButton(buttonLabels.getString(0),
-//                            new AlertDialog.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                    try {
-//                                        result.put("buttonIndex",1);
-//                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());											
-//                                    } catch (JSONException e) { e.printStackTrace(); }
-//                                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
-//                                }
-//                            });
-//                    } catch (JSONException e) { }
-//                }
-//
-//                // Second button
-//                if (buttonLabels.length() > 1) {
-//                    try {
-//                        dlg.setNeutralButton(buttonLabels.getString(1),
-//                            new AlertDialog.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                    try {
-//                                        result.put("buttonIndex",2);
-//                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
-//                                    } catch (JSONException e) { e.printStackTrace(); }
-//                                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
-//                                }
-//                            });
-//                    } catch (JSONException e) { }
-//                }
-//
-//                // Third button
-//                if (buttonLabels.length() > 2) {
-//                    try {
-//                        dlg.setPositiveButton(buttonLabels.getString(2),
-//                            new AlertDialog.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                    try {
-//                                        result.put("buttonIndex",3);
-//                                        result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
-//                                    } catch (JSONException e) { e.printStackTrace(); }
-//                                    callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
-//                                }
-//                            });
-//                    } catch (JSONException e) { }
-//                }
-//                dlg.setOnCancelListener(new AlertDialog.OnCancelListener() {
-//                    public void onCancel(DialogInterface dialog){
-//                        dialog.dismiss();
-//                        try {
-//                            result.put("buttonIndex",0);
-//                            result.put("input1", promptInput.getText().toString().trim().length()==0 ? defaultText : promptInput.getText());
-//                        } catch (JSONException e) { e.printStackTrace(); }
-//                        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
-//                    }
-//                });
-//
-//                dlg.create();
-//                dlg.show();
-//
-//            };
-//        };
-//        this.cordova.getActivity().runOnUiThread(runnable);
-//    }
-//
-//    /**
-//     * Show the spinner.
-//     *
-//     * @param title     Title of the dialog
-//     * @param message   The message of the dialog
-//     */
-//    public synchronized void activityStart(final String title, final String message) {
-//        if (this.spinnerDialog != null) {
-//            this.spinnerDialog.dismiss();
-//            this.spinnerDialog = null;
-//        }
-//        final CordovaInterface cordova = this.cordova;
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                Notification.this.spinnerDialog = ProgressDialog.show(cordova.getActivity(), title, message, true, true,
-//                        new DialogInterface.OnCancelListener() {
-//                            public void onCancel(DialogInterface dialog) {
-//                                Notification.this.spinnerDialog = null;
-//                            }
-//                        });
-//            }
-//        };
-//        this.cordova.getActivity().runOnUiThread(runnable);
-//    }
-//
-//    /**
-//     * Stop spinner.
-//     */
-//    public synchronized void activityStop() {
-//        if (this.spinnerDialog != null) {
-//            this.spinnerDialog.dismiss();
-//            this.spinnerDialog = null;
-//        }
-//    }
-//
-//    /**
-//     * Show the progress dialog.
-//     *
-//     * @param title     Title of the dialog
-//     * @param message   The message of the dialog
-//     */
-//    public synchronized void progressStart(final String title, final String message) {
-//        if (this.progressDialog != null) {
-//            this.progressDialog.dismiss();
-//            this.progressDialog = null;
-//        }
-//        final Notification notification = this;
-//        final CordovaInterface cordova = this.cordova;
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                notification.progressDialog = new ProgressDialog(cordova.getActivity());
-//                notification.progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//                notification.progressDialog.setTitle(title);
-//                notification.progressDialog.setMessage(message);
-//                notification.progressDialog.setCancelable(true);
-//                notification.progressDialog.setMax(100);
-//                notification.progressDialog.setProgress(0);
-//                notification.progressDialog.setOnCancelListener(
-//                        new DialogInterface.OnCancelListener() {
-//                            public void onCancel(DialogInterface dialog) {
-//                                notification.progressDialog = null;
-//                            }
-//                        });
-//                notification.progressDialog.show();
-//            }
-//        };
-//        this.cordova.getActivity().runOnUiThread(runnable);
-//    }
-//
-//    /**
-//     * Set value of progress bar.
-//     *
-//     * @param value     0-100
-//     */
-//    public synchronized void progressValue(int value) {
-//        if (this.progressDialog != null) {
-//            this.progressDialog.setProgress(value);
-//        }
-//    }
-//
-//    /**
-//     * Stop progress dialog.
-//     */
-//    public synchronized void progressStop() {
-//        if (this.progressDialog != null) {
-//            this.progressDialog.dismiss();
-//            this.progressDialog = null;
-//        }
-//    }
+	
+    private class SocketListener extends Thread {
+        int m_socketId;
+        DatagramSocket m_socket;
+		
+        public SocketListener(int id, DatagramSocket socket) {
+            this.m_socketId = id;
+            this.m_socket = socket;
+        }
+		
+        public void run() {
+            byte[] data = new byte[2048]; // investigate MSG_PEEK and MSG_TRUNC in java
+            DatagramPacket packet = new DatagramPacket(data, data.length);
+            while (true) {
+                try {
+                    this.m_socket.receive(packet);
+                    String msg = new String(data, 0, packet.getLength(), "UTF-8")
+					.replace("'", "\'")
+					.replace("\r", "\\r")
+					.replace("\n", "\\n");
+                    String address = packet.getAddress().getHostAddress();
+                    int port = packet.getPort();
+					
+                    Datagram.this.webView.sendJavascript(
+														 "cordova.require('in.girish.datagram.datagram')._onMessage("
+														 + this.m_socketId + ","
+														 + "'" + msg + "',"
+														 + "'" + address + "',"
+														 + port + ")");
+                } catch (Exception e) {
+                    Log.d(TAG, "Receive exception:" + e.toString());
+                    return;
+                }
+            }
+        }
+    }
+	
+    @Override
+    public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
+        final int id = data.getInt(0);
+        DatagramSocket socket = m_sockets.get(id);
+		
+        if (action.equals("create")) {
+            assert socket == null;
+            final boolean isMulticast = data.getBoolean(1);
+            try {
+                socket = isMulticast ? new MulticastSocket(null) : new DatagramSocket(null);
+                m_sockets.put(id, socket);
+                callbackContext.success();
+            } catch (Exception e) {
+                Log.d(TAG, "Create exception:" + e.toString());
+                callbackContext.error(e.toString());
+            }
+        } else if (action.equals("bind")) {
+            final int port = data.getInt(1);
+            try {
+                socket.bind(new InetSocketAddress(port));
+				
+                SocketListener listener = new SocketListener(id, socket);
+                m_listeners.put(id, listener);
+                listener.start();
+				
+                callbackContext.success();
+            } catch (Exception e) {
+                Log.d(TAG, "Bind exception:" + e.toString());
+                callbackContext.error(e.toString());
+            }
+        } else if (action.equals("joinGroup")) {
+            final String address = data.getString(1);
+            MulticastSocket msocket = (MulticastSocket) socket;
+            try {
+                msocket.joinGroup(InetAddress.getByName(address));
+                callbackContext.success();
+            } catch (Exception e) {
+                Log.d(TAG, "joinGroup exception:" + e.toString());
+                callbackContext.error(e.toString());
+            }
+        } else if (action.equals("leaveGroup")) {
+            final String address = data.getString(1);
+            MulticastSocket msocket = (MulticastSocket) socket;
+            try {
+                msocket.leaveGroup(InetAddress.getByName(address));
+                callbackContext.success();
+            } catch (Exception e) {
+                Log.d(TAG, "leaveGroup exception:" + e.toString());
+                callbackContext.error(e.toString());
+            }
+        } else if (action.equals("send")) {
+            String message = data.getString(1);
+            String address = data.getString(2);
+            int port = data.getInt(3);
+			
+            try {
+                byte[] bytes = message.getBytes("UTF-8");
+                DatagramPacket packet = new DatagramPacket(bytes, bytes.length, InetAddress.getByName(address), port);
+                socket.send(packet);
+                callbackContext.success(message);
+            } catch (IOException ioe) {
+                Log.d(TAG, "send exception:" + ioe.toString());
+                callbackContext.error("IOException: " + ioe.toString());
+            }
+        } else if (action.equals("close")) {
+            if (socket != null) {
+                socket.close();
+                m_sockets.remove(id);
+                SocketListener listener = m_listeners.get(id);
+                if (listener != null) {
+                    listener.interrupt();
+                    m_listeners.remove(id);
+                }
+            }
+            callbackContext.success();
+        } else {
+            return false; // 'MethodNotFound'
+        }
+		
+        return true;
+    }
 }

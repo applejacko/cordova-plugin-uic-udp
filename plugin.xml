@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="edu.uic.udptransmit"
+    version="0.1.0">
+    <name>UDPPlugin</name>
+    <description>UDP Plugin which supports node.js dgram API</description>
+    <license>UIC</license>
+    <keywords>UDP, Multicast, dgram</keywords>
+	
+    <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
+    <js-module src="www/udptransmit.js" name="updtransmit">
+    </js-module>
+	
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <!-- This is the name used for service name in cordova.exec -->
+            <feature name="UDPTransmit" >
+                <!-- This tells cordova which java class to load for this plugin -->
+                <param name="android-package" value="edu.uic.udptransmit"/>
+            </feature>
+        </config-file>
+		
+		<source-file src="src/android/UDPTransmit.java" target-dir="src/edu/uic/updtransmit/" />
+    </platform>
+	
+</plugin>

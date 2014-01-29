@@ -33,6 +33,6 @@
         <source-file src="src/android/UDPTransmit.java" />
 	</platform>
 	
-	<!-----------------------------  -------------------------------------------------->
+	<!-- Is this OK? -->
 	
 </plugin>

@@ -9,13 +9,13 @@
     <keywords>UDP</keywords>
 	
     <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
-    <js-module src="www/updtransmit.js" name="updtransmit">
+    <js-module src="www/datagram.js" name="datagram">
     </js-module>
 	
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <!-- This is the name used for service name in cordova.exec -->
-            <feature name="UDPTransmit" >
+            <feature name="Datagram" >
                 <!-- This tells cordova which java class to load for this plugin -->
                 <param name="android-package" value="edu.uic.udptransmit.UDPTransmit"/>
             </feature>

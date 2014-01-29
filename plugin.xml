@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="edu.uic.updtransmit" version="0.0.1">
     
+	<!-- Metadata -->
 	
 	<name>UDPTransmit</name>
     <description>Cordova UDP Transmit Plugin</description>
     <license>IDOT/UIC</license>
     <keywords>cordova,UDP,udp</keywords>
+	<!--
+	 <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-dialogs.git</repo>
+	 <issue>https://issues.apache.org/jira/browse/CB/component/12320642</issue>
+	 -->
 	
+	<!-- The common JavaScript file for all mobile platforms -->
 	
 	<js-module src="www/UDPTransmit.js" name="updtransmit">
         <clobbers target="udptransmit" />
     </js-module>
     
+	<!-- iOS-specific Objective-C source code -->
 	
 	<platform name="ios">
         <config-file target="config.xml" parent="/*">
@@ -23,6 +30,7 @@
         <source-file src="src/ios/UDPTransmit.m" />
 	</platform>
     
+	<!-- Android-specific Java source code -->
 	
 	<platform name="android">
         <config-file target="config.xml" parent="/*">
@@ -33,6 +41,6 @@
         <source-file src="src/android/UDPTransmit.java" />
 	</platform>
 	
-	<!-- Is this OK? -->
+	<!--  -->
 	
 </plugin>

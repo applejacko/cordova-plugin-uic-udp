@@ -7,7 +7,7 @@
     <name>UDPPlugin</name>
     <description>UDP Plugin which supports node.js dgram API</description>
     <license>UIC</license>
-    <keywords>UDP, Multicast, Datagram, dgram</keywords>
+    <keywords>UDP, Multicast, dgram</keywords>
 	
     <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
     <js-module src="www/udptransmit.js" name="updtransmit">

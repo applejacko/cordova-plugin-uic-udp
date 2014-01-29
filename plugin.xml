@@ -9,7 +9,7 @@
     <keywords>UDP</keywords>
 	
     <!-- cordova defines the file below with define('<plugin-id>.<name>') -->
-    <js-module src="www/datagram.js" name="datagram">
+    <js-module src="www/datagram.js" name="udptransmit">
     </js-module>
 	
     <platform name="android">

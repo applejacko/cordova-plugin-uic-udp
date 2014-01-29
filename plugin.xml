@@ -6,7 +6,7 @@
     version="0.1.0">
     <name>UDPPlugin</name>
     <description>UDP Plugin which supports node.js dgram API</description>
-    <license>MIT</license>
+    <license>UIC</license>
     <keywords>UDP, Multicast, Datagram, dgram</keywords>
 	
     <!-- cordova defines the file below with define('<plugin-id>.<name>') -->

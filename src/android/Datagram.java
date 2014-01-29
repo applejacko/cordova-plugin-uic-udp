@@ -15,7 +15,7 @@ import org.json.JSONException;
 import android.util.Log;
 import android.util.SparseArray;
 
-public class Datagram extends CordovaPlugin {
+public class UDPTransmit extends CordovaPlugin {
 	private static final String TAG = Datagram.class.getSimpleName();
 	
     SparseArray<DatagramSocket> m_sockets;

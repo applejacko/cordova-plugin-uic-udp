@@ -21,7 +21,7 @@ public class UDPTransmit extends CordovaPlugin {
     SparseArray<DatagramSocket> m_sockets;
     SparseArray<SocketListener> m_listeners;
 	
-    public Datagram() {
+    public UDPTransmit() {
         m_sockets = new SparseArray<DatagramSocket>();
         m_listeners = new SparseArray<SocketListener>();
     }
@@ -48,8 +48,8 @@ public class UDPTransmit extends CordovaPlugin {
                     String address = packet.getAddress().getHostAddress();
                     int port = packet.getPort();
 					
-                    Datagram.this.webView.sendJavascript(
-														 "cordova.require('in.girish.datagram.datagram')._onMessage("
+                    UDPTransmit.this.webView.sendJavascript(
+														 "cordova.require('edu.uic.udptransmit')._onMessage("
 														 + this.m_socketId + ","
 														 + "'" + msg + "',"
 														 + "'" + address + "',"

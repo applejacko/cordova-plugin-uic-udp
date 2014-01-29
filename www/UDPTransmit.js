@@ -1,4 +1,4 @@
-window.udptransmit = function(str, callback) {
+udptransmit = function(str, callback) {
 	cordova.exec(
 				 
 				 // success callback

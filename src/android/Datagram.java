@@ -1,4 +1,4 @@
-package in.girish.datagram;
+package edu.uic.datagram;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

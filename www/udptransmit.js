@@ -1,8 +1,17 @@
-cordova.define("edu.uic.updtransmit.udptransmit", function(require, exports, module) {// require, exports, module are predefined
+var exec = require('cordova/exec');
+var platform = require('cordova/platform');
 
-			   var exec = cordova.require('cordova/exec');
-			   
-			   function TestFunc() {
-					window.alert("TestFunc");
-			   }
-});
+module.exports = {
+	
+    /**
+     * Open a native alert dialog, with a customizable title and button text.
+     *
+     * @param {String} message              Message to print in the body of the alert
+     * @param {Function} completeCallback   The callback that is called when user clicks on a button.
+     * @param {String} title                Title of the alert dialog (default: Alert)
+     * @param {String} buttonLabel          Label of the close button (default: OK)
+     */
+alert: function(message, completeCallback, title, buttonLabel) {
+	exec(completeCallback, null, "Notification", "alert", [message, title, buttonLabel]);
+
+}

@@ -35,7 +35,7 @@
 		[alertView show];
 	}
 	
-- (void)alert:(CDVInvokedUrlCommand*)command
+	- (void)alert:(CDVInvokedUrlCommand*)command
 	{
 		NSString* callbackId = command.callbackId;
 		NSString* message = [command argumentAtIndex:0];

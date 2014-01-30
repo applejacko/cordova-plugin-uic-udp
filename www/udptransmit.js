@@ -13,5 +13,5 @@ module.exports = {
      */
 alert: function(message, completeCallback, title, buttonLabel) {
 	exec(completeCallback, null, "Notification", "alert", [message, title, buttonLabel]);
-
-}
+	}
+};

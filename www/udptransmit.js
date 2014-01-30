@@ -6,3 +6,4 @@ module.exports = {
 		exec(completeCallback, null, "Notification", "alert", [message, title, buttonLabel]);
 	}
 };
+

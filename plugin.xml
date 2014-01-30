@@ -37,7 +37,6 @@
                 <param name="android-package" value="edu.uic.udptransmit.UDPTransmit"/>
             </feature>
         </config-file>
-		
 		<source-file src="src/android/UDPTransmit.java" target-dir="src/edu/uic/udptransmit/" />
     </platform>
 

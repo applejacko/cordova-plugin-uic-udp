@@ -1,5 +1,12 @@
 #import "UDPTransmit.h"
 
+#import <Cordova/NSDictionary+Extensions.h>
+#import <Cordova/NSArray+Comparisons.h>
+
+#define DIALOG_TYPE_ALERT @"alert"
+#define DIALOG_TYPE_PROMPT @"prompt"
+
+
 @implementation UDPTransmit
 	
 	- (void)showDialogWithMessage:(NSString*)message title:(NSString*)title buttons:(NSArray*)buttons defaultText:(NSString*)defaultText callbackId:(NSString*)callbackId dialogType:(NSString*)dialogType
@@ -37,6 +44,13 @@
 		
 		[self showDialogWithMessage:message title:title buttons:@[buttons] defaultText:nil callbackId:callbackId dialogType:DIALOG_TYPE_ALERT];
 	}
+	
+	
+	@end
 
+@implementation CDVAlertView
+	
+	@synthesize callbackId;
+	
+	@end
 
-@end

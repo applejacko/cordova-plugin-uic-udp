@@ -7,6 +7,13 @@
 @interface UDPTransmit : CDVPlugin
 	
 	- (void)alert:(CDVInvokedUrlCommand*)command;
+	
+	@end
 
-@end
+@interface CDVAlertView : UIAlertView {}
+	
+	@property (nonatomic, copy) NSString* callbackId;
+	
+	@end
+
 

@@ -20,7 +20,7 @@
 	<platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="UDPTransmit">
-                <param name="ios-package" value="edu.uic.udptransmit.UDPTransmit"/>
+                <param name="ios-package" value="UDPTransmit"/>
             </feature>
         </config-file>
         <header-file src="src/ios/UDPTransmit.h" />

@@ -33,9 +33,6 @@ module.exports = {
 		// - native class name
 		// - native method name
 		// - arguments for method
-		//		return exec(null, null, "UDPTransmit", "createDatagramPacket", [data, length, host, port]);
-		//		exec(null, null, "UDPTransmit", "createDatagramPacket", [data, length, host, port]);
-		//		exec("successMakingDatagramPacket", "errorMakingDatagramPacket", "UDPTransmit", "createDatagramPacket", [data, length, host, port]);
 		cordova.exec(
 					 function(){alert("success creating datagram packet");},
 					 function(error){alert("error creating datagram packet: " + error);},

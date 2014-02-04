@@ -19,8 +19,19 @@ public class UDPTransmit extends CordovaPlugin {
 	public UDPTransmit() {
 	}
 	
-	//	public void setDatagramPacketAddress(String address) {
-	//	}
+	public void setDatagramPacketAddress(String address) {
+		InetAddress addr = null;
+		try {
+			addr = InetAddress.getByName(address);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		datagramPacket.setAddress(addr);
+		System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+		
+		
+	}
 	//
 	//	public String getDatagramPacketAddress() {
 	//		return datagramPacket.getAddress().toString();
@@ -51,9 +62,9 @@ public class UDPTransmit extends CordovaPlugin {
 		
 		
 		
-		//		else if("setDatagramPacketAddress".equals(action)) {
-		//			this.setDatagramPacketAddress(args.getString(0));
-		//		}
+		else if("setDatagramPacketAddress".equals(action)) {
+			this.setDatagramPacketAddress(args.getString(0));
+		}
 		//		else if("getDatagramPacketAddress".equals(action)) {
 		//		}
 		

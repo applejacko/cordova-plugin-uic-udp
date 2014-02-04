@@ -64,6 +64,7 @@ public class UDPTransmit extends CordovaPlugin {
 		
 		else if("setDatagramPacketAddress".equals(action)) {
 			this.setDatagramPacketAddress(args.getString(0));
+			return true;
 		}
 		//		else if("getDatagramPacketAddress".equals(action)) {
 		//		}

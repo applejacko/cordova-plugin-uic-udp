@@ -19,6 +19,13 @@ public class UDPTransmit extends CordovaPlugin {
 	public UDPTransmit() {
 	}
 	
+	//	public void setDatagramPacketAddress(String address) {
+	//	}
+	//
+	//	public String getDatagramPacketAddress() {
+	//		return datagramPacket.getAddress().toString();
+	//	}
+	
 	// Handles and dispatches "exec" calls from the JS interface piece (udptransmit.js)
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -33,25 +40,22 @@ public class UDPTransmit extends CordovaPlugin {
 			return true;
 		}
 		else if("createDatagramPacket".equals(action)) {
-			
-			// convert String to bytes[] for arg 0
-			byte[] bytes = args.getString(0).getBytes();
-			
-			// create InetAddress for arg 2
-			InetAddress addr = null;
-			try {
-				addr = InetAddress.getByName(args.getString(2));
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			// Call the function to create the Datagram packet
-			this.createDatagramPacket(bytes, args.getInt(1), addr, args.getInt(3));
-			System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+			this.createDatagramPacket(args.getString(0), args.getInt(1), args.getString(2), args.getInt(3));
 			callbackContext.success();
 			return true;
 		}
+		
+		
+		
+		
+		
+		
+		//		else if("setDatagramPacketAddress".equals(action)) {
+		//			this.setDatagramPacketAddress(args.getString(0));
+		//		}
+		//		else if("getDatagramPacketAddress".equals(action)) {
+		//		}
 		
 		return false;
 	}
@@ -65,10 +69,26 @@ public class UDPTransmit extends CordovaPlugin {
     }
     
     
-	
-	public boolean createDatagramPacket(byte[] data, int length, InetAddress host, int port) {
+	public boolean createDatagramPacket(String data, int length, String host, int port) {
+		
 		//System.out.println("About to make DatagramPacket");
-		datagramPacket = new DatagramPacket(data, length, host, port);
+		
+		// convert String to bytes[] for arg 0
+		byte[] bytes = data.getBytes();
+		
+		// create InetAddress for arg 2
+		InetAddress address = null;
+		try {
+			address = InetAddress.getByName(host);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		datagramPacket = new DatagramPacket(bytes, length, address, port);
+		
+		System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+		
 		if (datagramPacket != null)
 			return true;
 		else

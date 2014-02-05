@@ -15,34 +15,30 @@ public class UDPTransmit extends CordovaPlugin {
 	DatagramPacket datagramPacket;
 	DatagramSocket datagramSocket;
 	
-	int one, two;
-	
 	// Constructor
 	public UDPTransmit() {
 	}
 	
-	public void setDatagramPacketAddress(String address) {
-		InetAddress addr = null;
-		try {
-			addr = InetAddress.getByName(address);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		datagramPacket.setAddress(addr);
-		System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
-		
-		
-	}
-	//
-	//	public String getDatagramPacketAddress() {
-	//		return datagramPacket.getAddress().toString();
-	//	}
-	
-	// Handles and dispatches "exec" calls from the JS interface piece (udptransmit.js)
+	// Handles and dispatches "exec" calls from the JS interface (udptransmit.js)
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-		if("testMethod".equals(action)) {
+		if("createDatagramPacket".equals(action)) {
+			// Call the function to create the Datagram packet
+			this.createDatagramPacket(args.getString(0), args.getInt(1), args.getString(2), args.getInt(3));
+			callbackContext.success();
+			return true;
+		}
+		else if("setDatagramPacketAddress".equals(action)) {
+			this.setDatagramPacketAddress(args.getString(0));
+			return true;
+		}
+		else if("getDatagramPacketAddress".equals(action)) {
+			this.getDatagramPacketAddress(callbackContext);
+			return true;
+		}
+		
+		// temp junk  ======================================================
+		else if("testMethod".equals(action)) {
 			this.testMethod();
 			callbackContext.success();
 			return true;
@@ -57,49 +53,13 @@ public class UDPTransmit extends CordovaPlugin {
 			//			callbackContext.success();
 			return true;
 		}
+		// end temp junk  ======================================================
 		
 		
-		
-		
-		
-		else if("createDatagramPacket".equals(action)) {
-			// Call the function to create the Datagram packet
-			this.createDatagramPacket(args.getString(0), args.getInt(1), args.getString(2), args.getInt(3));
-			callbackContext.success();
-			return true;
-		}
-		
-		
-		
-		
-		
-		
-		else if("setDatagramPacketAddress".equals(action)) {
-			this.setDatagramPacketAddress(args.getString(0));
-			return true;
-		}
-		//		else if("getDatagramPacketAddress".equals(action)) {
-		//		}
 		
 		return false;
 	}
 	
-    public void testMethod() {
-    	System.out.println("In testMethod");
-    }
-	
-    public void testMethodWithArgs(int a, int b) {
-    	System.out.println("In testMethodWithArgs " + a + ", " + b);
-    	this.one = a;
-    	this.two = b;
-    }
-    
-    public void testmethodThatReturnsValue(CallbackContext callbackContext) {
-    	callbackContext.success(this.two);
-    }
-    
-    
-    
 	public boolean createDatagramPacket(String data, int length, String host, int port) {
 		
 		//System.out.println("About to make DatagramPacket");
@@ -126,13 +86,42 @@ public class UDPTransmit extends CordovaPlugin {
 			return false;
 	}
 	
-	//	public void successMakingDatagramPacket() {
-	//		System.out.println("Success making DatagramPacket");
-	//
-	//	}
-	//
-	//	public void errorMakingDatagramPacket() {
-	//		System.out.println("Error making DatagramPacket");
-	//
-	//	}
+	public void setDatagramPacketAddress(String address) {
+		InetAddress addr = null;
+		try {
+			addr = InetAddress.getByName(address);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		datagramPacket.setAddress(addr);
+		System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+	}
+	
+	
+	public void getDatagramPacketAddress(CallbackContext callbackContext) {
+		callbackContext.success(datagramPacket.getAddress().toString());
+	}
+	
+	
+	// temp junk ======================================================
+	
+	int one, two;
+    public void testMethod() {
+    	System.out.println("In testMethod");
+    }
+	
+    public void testMethodWithArgs(int a, int b) {
+    	System.out.println("In testMethodWithArgs " + a + ", " + b);
+    	this.one = a;
+    	this.two = b;
+    }
+    
+    public void testmethodThatReturnsValue(CallbackContext callbackContext) {
+    	callbackContext.success(this.two);
+    }
+    
+	// end temp junk ======================================================
+	
+    
 }

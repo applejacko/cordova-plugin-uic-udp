@@ -15,6 +15,8 @@ public class UDPTransmit extends CordovaPlugin {
 	DatagramPacket datagramPacket;
 	DatagramSocket datagramSocket;
 	
+	int one, two;
+	
 	// Constructor
 	public UDPTransmit() {
 	}
@@ -50,6 +52,16 @@ public class UDPTransmit extends CordovaPlugin {
 			callbackContext.success();
 			return true;
 		}
+		else if("testmethodThatReturnsValue".equals(action)) {
+			this.testmethodThatReturnsValue(callbackContext);
+			//			callbackContext.success();
+			return true;
+		}
+		
+		
+		
+		
+		
 		else if("createDatagramPacket".equals(action)) {
 			// Call the function to create the Datagram packet
 			this.createDatagramPacket(args.getString(0), args.getInt(1), args.getString(2), args.getInt(3));
@@ -78,7 +90,14 @@ public class UDPTransmit extends CordovaPlugin {
 	
     public void testMethodWithArgs(int a, int b) {
     	System.out.println("In testMethodWithArgs " + a + ", " + b);
+    	this.one = a;
+    	this.two = b;
     }
+    
+    public void testmethodThatReturnsValue(CallbackContext callbackContext) {
+    	callbackContext.success(this.two);
+    }
+    
     
     
 	public boolean createDatagramPacket(String data, int length, String host, int port) {
@@ -114,6 +133,6 @@ public class UDPTransmit extends CordovaPlugin {
 	//
 	//	public void errorMakingDatagramPacket() {
 	//		System.out.println("Error making DatagramPacket");
-	//	
+	//
 	//	}
 }

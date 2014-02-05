@@ -34,6 +34,20 @@ cordova.define("edu.uic.udptransmit.udptransmit", function(require, exports, mod
 							[x, y]);
 			   return true;
 			   },
+			   
+			   
+			   testmethodthatreturnsvalue: function(callback) {
+			   cordova.exec(
+							callback,
+							function(error){alert("error calling testmethodthatreturnsvalue: " + error);},
+							"UDPTransmit",
+							"testmethodThatReturnsValue",
+							[]);
+			   return true;
+			   },
+			   
+			   
+			   
 			   createDatagramPacket: function(data, length, host, port) {
 			   cordova.exec(
 							function(){alert("success creating datagram packet");},

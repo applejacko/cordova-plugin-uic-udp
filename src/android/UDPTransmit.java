@@ -2,9 +2,12 @@ package edu.uic.udptransmit;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import org.json.JSONArray;
@@ -34,6 +37,14 @@ public class UDPTransmit extends CordovaPlugin {
 		}
 		else if("getDatagramPacketAddress".equals(action)) {
 			this.getDatagramPacketAddress(callbackContext);
+			return true;
+		}
+		else if("createDatagramSocket".equals(action)) {
+			this.createDatagramSocket();
+			return true;
+		}
+		else if("sendDatagramPacket".equals(action)) {
+			this.sendDatagramPacket();
 			return true;
 		}
 		
@@ -78,7 +89,7 @@ public class UDPTransmit extends CordovaPlugin {
 		
 		datagramPacket = new DatagramPacket(bytes, length, address, port);
 		
-		System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
+		System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort() + ", data = " + (char)datagramPacket.getData()[0] + (char)datagramPacket.getData()[1] + (char)datagramPacket.getData()[2]);
 		
 		if (datagramPacket != null)
 			return true;
@@ -102,6 +113,30 @@ public class UDPTransmit extends CordovaPlugin {
 	public void getDatagramPacketAddress(CallbackContext callbackContext) {
 		callbackContext.success(datagramPacket.getAddress().toString());
 	}
+	
+	public void createDatagramSocket() {
+		try {
+			datagramSocket = new DatagramSocket();
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Buffer size" + datagramPacket.getLength());
+	}
+	
+	
+	
+	
+	public void sendDatagramPacket() {
+		try {
+			datagramSocket.send(datagramPacket);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	
 	
 	// temp junk ======================================================

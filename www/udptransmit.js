@@ -37,6 +37,25 @@ getDatagramPacketAddress: function(callback) {
 				 []);
 	return true;
 },
+createDatagramSocket: function() {
+	cordova.exec(
+				 function(){alert("success creating datagram socket");},
+				 function(error){alert("error creating datagram socket: " + error);},
+				 "UDPTransmit",
+				 "createDatagramSocket",
+				 []);
+	return true;
+},
+sendDatagramPacket: function() {
+	cordova.exec(
+				 function(){alert("success sending packet");},
+				 function(error){alert("error sending packet: " + error);},
+				 "UDPTransmit",
+				 "sendDatagramPacket",
+				 []);
+	return true;
+},
+	
 	
 	
 	

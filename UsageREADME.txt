@@ -3,10 +3,16 @@ NOTE: This file will eventually contain meaningful usage notes. For now, this is
 
 To use in the JavaScript of a project:
 
-alert("Result of udptransmit.createDatagramPacket(etc...): " + udptransmit.createDatagramPacket("xyz", 3, "131.193.42.200", 555));
-alert("After getting address with udptransmit.getDatagramPacketAddress(etc...): " +  udptransmit.getDatagramPacketAddress(function(value){alert("Callback returned: " + value)}));
-alert("After resetting address with udptransmit.setDatagramPacketAddress('131.193.42.201'): " +  udptransmit.setDatagramPacketAddress("131.193.42.201"));
-alert("After getting address again with udptransmit.getDatagramPacketAddress(etc...): " +  udptransmit.getDatagramPacketAddress(function(value){alert("Callback returned: " + value)}));
+//        alert("Result of udptransmit.createDatagramPacket(etc...): " + udptransmit.createDatagramPacket("Hello From UDP Land!", 20, "131.193.42.201", 4445));
+//		alert("After getting address with udptransmit.getDatagramPacketAddress(etc...): " +  udptransmit.getDatagramPacketAddress(function(value){alert("Callback returned: " + value)}));
+//		alert("After resetting address with udptransmit.setDatagramPacketAddress('10.0.1.25'): " +  udptransmit.setDatagramPacketAddress("10.0.1.25"));
+//		alert("After getting address again with udptransmit.getDatagramPacketAddress(etc...): " +  udptransmit.getDatagramPacketAddress(function(value){alert("Callback returned: " + value)}));
+// 		alert("Creating socket: " + udptransmit.createDatagramSocket());
+// 		alert("Sending packet: " + udptransmit.sendDatagramPacket());
+ 		
+ 		udptransmit.createDatagramPacket("Hello From UDP Land!", 20, "10.0.1.25", 4445);
+ 		udptransmit.createDatagramSocket();
+ 		udptransmit.sendDatagramPacket();
  
 // ========== temp junk ======================================
  

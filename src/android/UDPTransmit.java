@@ -27,7 +27,7 @@ public class UDPTransmit extends CordovaPlugin {
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 		if("createDatagramPacket".equals(action)) {
 			// Call the function to create the Datagram packet
-			this.createDatagramPacket(args.getString(0), args.getInt(1), args.getString(2), args.getInt(3));
+			this.createDatagramPacket(args.getString(0), args.getString(1), args.getInt(2));
 			callbackContext.success();
 			return true;
 		}
@@ -71,12 +71,16 @@ public class UDPTransmit extends CordovaPlugin {
 		return false;
 	}
 	
-	public boolean createDatagramPacket(String data, int length, String host, int port) {
+	public boolean createDatagramPacket(String data, String host, int port) {
 		
 		//System.out.println("About to make DatagramPacket");
 		
 		// convert String to bytes[] for arg 0
 		byte[] bytes = data.getBytes();
+		
+		int length = data.length();
+		
+		System.out.println("length: " + length);
 		
 		// create InetAddress for arg 2
 		InetAddress address = null;
@@ -86,6 +90,7 @@ public class UDPTransmit extends CordovaPlugin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		datagramPacket = new DatagramPacket(bytes, length, address, port);
 		

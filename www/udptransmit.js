@@ -10,13 +10,13 @@ module.exports = {
 	// - native method name
 	// - arguments for method
 	
-createDatagramPacket: function(data, length, host, port) {
+createDatagramPacket: function(data, host, port) {
 	cordova.exec(
 				 function(){alert("success creating datagram packet");},
 				 function(error){alert("error creating datagram packet: " + error);},
 				 "UDPTransmit",
 				 "createDatagramPacket",
-				 [data, length, host, port]);
+				 [data, host, port]);
 	return true;
 },
 setDatagramPacketAddress: function(host) {

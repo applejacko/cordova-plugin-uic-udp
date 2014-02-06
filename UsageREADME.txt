@@ -10,7 +10,7 @@ To use in the JavaScript of a project:
 // 		alert("Creating socket: " + udptransmit.createDatagramSocket());
 // 		alert("Sending packet: " + udptransmit.sendDatagramPacket());
  		
- 		udptransmit.createDatagramPacket("Hello From UDP Land!", 20, "10.0.1.25", 4445);
+ 		udptransmit.createDatagramPacket("Hello From UDP Land one more time!!!", "10.0.1.25", 4445);
  		udptransmit.createDatagramSocket();
  		udptransmit.sendDatagramPacket();
  

@@ -37,6 +37,42 @@ getDatagramPacketAddress: function(callback) {
 				 []);
 	return true;
 },
+setDatagramPacketPort: function(port) {
+	cordova.exec(
+				 function(){alert("success setting port");},
+				 function(error){alert("error setting port: " + error);},
+				 "UDPTransmit",
+				 "setDatagramPacketPort",
+				 [port]);
+	return true;
+},
+getDatagramPacketPort: function(callback) {
+	cordova.exec(
+				 callback,
+				 function(error){alert("error getting port: " + error);},
+				 "UDPTransmit",
+				 "getDatagramPacketPort",
+				 []);
+	return true;
+},
+setDatagramPacketData: function(host) {
+	cordova.exec(
+				 function(){alert("success setting packet data");},
+				 function(error){alert("error setting packet data: " + error);},
+				 "UDPTransmit",
+				 "setDatagramPacketData",
+				 [host]);
+	return true;
+},
+getDatagramPacketData: function(callback) {
+	cordova.exec(
+				 callback,
+				 function(error){alert("error getting packet data: " + error);},
+				 "UDPTransmit",
+				 "getDatagramPacketData",
+				 []);
+	return true;
+},
 createDatagramSocket: function() {
 	cordova.exec(
 				 function(){alert("success creating datagram socket");},

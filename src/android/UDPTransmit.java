@@ -39,6 +39,22 @@ public class UDPTransmit extends CordovaPlugin {
 			this.getDatagramPacketAddress(callbackContext);
 			return true;
 		}
+		else if("setDatagramPacketPort".equals(action)) {
+			this.setDatagramPacketPort(args.getInt(0));
+			return true;
+		}
+		else if("getDatagramPacketPort".equals(action)) {
+			this.getDatagramPacketPort(callbackContext);
+			return true;
+		}
+		else if("setDatagramPacketData".equals(action)) {
+			this.setDatagramPacketData(args.getString(0));
+			return true;
+		}
+		else if("getDatagramPacketData".equals(action)) {
+			this.getDatagramPacketData(callbackContext);
+			return true;
+		}
 		else if("createDatagramSocket".equals(action)) {
 			this.createDatagramSocket();
 			return true;
@@ -66,14 +82,10 @@ public class UDPTransmit extends CordovaPlugin {
 		}
 		// end temp junk  ======================================================
 		
-		
-		
 		return false;
 	}
 	
 	public boolean createDatagramPacket(String data, String host, int port) {
-		
-		//System.out.println("About to make DatagramPacket");
 		
 		// convert String to bytes[] for arg 0
 		byte[] bytes = data.getBytes();
@@ -82,7 +94,7 @@ public class UDPTransmit extends CordovaPlugin {
 		
 		System.out.println("length: " + length);
 		
-		// create InetAddress for arg 2
+		// create InetAddress for new arg 2
 		InetAddress address = null;
 		try {
 			address = InetAddress.getByName(host);
@@ -90,7 +102,6 @@ public class UDPTransmit extends CordovaPlugin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		datagramPacket = new DatagramPacket(bytes, length, address, port);
 		
@@ -114,9 +125,25 @@ public class UDPTransmit extends CordovaPlugin {
 		System.out.println("datagramPacket = " + datagramPacket + ", address = " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
 	}
 	
-	
 	public void getDatagramPacketAddress(CallbackContext callbackContext) {
 		callbackContext.success(datagramPacket.getAddress().toString());
+	}
+	
+	public void setDatagramPacketPort(int port) {
+		datagramPacket.setPort(port);
+	}
+	
+	public void getDatagramPacketPort(CallbackContext callbackContext) {
+		callbackContext.success(datagramPacket.getPort());
+	}
+	
+	public void setDatagramPacketData(String data) {
+		byte[] bytes = data.getBytes();
+		datagramPacket.setData(bytes);
+	}
+	
+	public void getDatagramPacketData(CallbackContext callbackContext) {
+		callbackContext.success(datagramPacket.getData());
 	}
 	
 	public void createDatagramSocket() {
@@ -128,9 +155,6 @@ public class UDPTransmit extends CordovaPlugin {
 		}
 		System.out.println("Buffer size" + datagramPacket.getLength());
 	}
-	
-	
-	
 	
 	public void sendDatagramPacket() {
 		try {

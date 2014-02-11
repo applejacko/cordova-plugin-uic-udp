@@ -1,4 +1,4 @@
-cordova.define("edu.uic.udptransmit.udptransmit", function(require, exports, module) {var exec = require('cordova/exec');
+var exec = require('cordova/exec');
 var platform = require('cordova/platform');
 
 // Start of cut and paste area (to put back in Git repo version of this file)
@@ -164,6 +164,3 @@ testmethodthatreturnsvalue: function(callback) {
 	
 };
 // End of cut and paste area
-			   
-			   
-});

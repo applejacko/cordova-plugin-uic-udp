@@ -46,6 +46,16 @@ To use in the JavaScript of a project:
 		// a timestamp, latitude, and longitude);
 		udptransmit.setDatagramPacketData("AK275S90HV220717", 12761276712676712, 41.8819, -87.6278");
  		udptransmit.sendDatagramPacket();
+
+
+
+		// Simple usage, initialize once, then send messages over and over
+		udptransmit.initialize("131.193.42.36", 4445);
+		udptransmit.sendMessage("Hello from iOS");
+		udptransmit.sendMessage("Two dee doo dee doo");
+		udptransmit.sendMessage("Three peet");
+		udptransmit.sendMessage("Four peet");
+
  
 // ========== temp junk ======================================
  

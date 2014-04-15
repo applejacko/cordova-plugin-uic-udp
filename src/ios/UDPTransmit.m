@@ -51,4 +51,70 @@
 	int ret = sendto(DatagramSocketC, messageToSend, strlen(messageToSend), 0, (struct sockaddr*)&broadcastAddr, sizeof broadcastAddr);
 }
 
+
+- (void)createDatagramPacket:(CDVInvokedUrlCommand*)command
+{
+	CDVPluginResult* pluginResult = nil;
+	
+	// Regular C implementation:
+	messageToSend = ((NSString *)[command.arguments objectAtIndex:0]).cString;
+	
+    memset(&broadcastAddr, 0, sizeof broadcastAddr);
+    broadcastAddr.sin_family = AF_INET;
+	const char * ip_address = ((NSString *)[command.arguments objectAtIndex:1]).cString;
+	inet_pton(AF_INET, ip_address, &broadcastAddr.sin_addr); // Set the broadcast IP address
+	
+	NSUInteger thePort = [[command.arguments objectAtIndex:2] integerValue];
+	broadcastAddr.sin_port = htons(thePort); // Set port 4445
+}
+
+- (void)setDatagramPacketAddress:(CDVInvokedUrlCommand*)command
+{
+	const char * ip_address = ((NSString *)[command.arguments objectAtIndex:0]).cString;
+	inet_pton(AF_INET, ip_address, &broadcastAddr.sin_addr); // Set the broadcast IP address
+}
+
+- (void)getDatagramPacketAddress:(CDVInvokedUrlCommand*)command
+{
+	
+}
+
+- (void)setDatagramPacketPort:(CDVInvokedUrlCommand*)command
+{
+	NSUInteger thePort = [[command.arguments objectAtIndex:2] integerValue];
+	broadcastAddr.sin_port = htons(thePort); // Set port 4445
+}
+
+- (void)getDatagramPacketPort:(CDVInvokedUrlCommand*)command
+{
+	
+}
+
+- (void)setDatagramPacketData:(CDVInvokedUrlCommand*)command
+{
+	messageToSend = ((NSString *)[command.arguments objectAtIndex:0]).cString;
+}
+
+- (void)getDatagramPacketData:(CDVInvokedUrlCommand*)command
+{
+	
+}
+
+- (void)createDatagramSocket:(CDVInvokedUrlCommand*)command
+{
+	// pure C
+	DatagramSocketC = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    int broadcastEnable=1;
+    int ret=setsockopt(DatagramSocketC, SOL_SOCKET, SO_BROADCAST, &broadcastEnable, sizeof(broadcastEnable));
+	
+}
+
+- (void)sendDatagramPacket:(CDVInvokedUrlCommand*)command
+{
+	int ret = sendto(DatagramSocketC, messageToSend, strlen(messageToSend), 0, (struct sockaddr*)&broadcastAddr, sizeof broadcastAddr);
+}
+
+
+
+
 @end

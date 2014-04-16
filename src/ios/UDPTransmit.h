@@ -8,8 +8,7 @@
 
 @interface UDPTransmit : CDVPlugin
 
-- (id)init;
 - (void)initialize:(CDVInvokedUrlCommand*)command;
 - (void)sendMessage:(CDVInvokedUrlCommand*)command;
 
-	@end
+@end

@@ -47,7 +47,7 @@
 	// 	Create the socket
 	DatagramSocketC = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
     int broadcastEnable=1;
-    int ret=setsockopt(DatagramSocketC, SOL_SOCKET, SO_BROADCAST, &broadcastEnable, sizeof(broadcastEnable));
+    setsockopt(DatagramSocketC, SOL_SOCKET, SO_BROADCAST, &broadcastEnable, sizeof(broadcastEnable));
 }
 
 // Sends a message to the IP and port set up in the initializer

@@ -6,7 +6,7 @@
 
     <name>UDPTransmit</name>
     <description>UDP Plugin which supports UDP API</description>
-    <license>UIC</license>
+    <license>Apache 2.0 License</license>
     <keywords>UDP,udp</keywords>
 	
     <!-- The common JavaScript file for all mobile platforms ======================= -->
@@ -29,7 +29,7 @@
 	
 	<!-- Android-specific Java source code ========================================= -->
 	
-    <platform name="android">
+	<platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <!-- This is the name used for service name in cordova.exec -->
             <feature name="UDPTransmit" >

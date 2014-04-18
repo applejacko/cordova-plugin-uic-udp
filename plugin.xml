@@ -6,7 +6,7 @@
 
     <name>UDPTransmit</name>
     <description>UDP Plugin which supports UDP API</description>
-    <license>Apache 2.0 License</license>
+    <license>Apache 2.0</license>
     <keywords>UDP,udp</keywords>
 	
     <!-- The common JavaScript file for all mobile platforms ======================= -->

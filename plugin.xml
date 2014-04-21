@@ -20,7 +20,7 @@
 	<platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="UDPTransmit">
-                <param name="ios-package" value="UDPTransmit"/>
+                <param name="ios-package" value="edu.uic.cordova.updtransmit"/>
             </feature>
         </config-file>
         <header-file src="src/ios/UDPTransmit.h" />
@@ -34,7 +34,7 @@
             <!-- This is the name used for service name in cordova.exec -->
             <feature name="UDPTransmit" >
                 <!-- This tells cordova which java class to load for this plugin -->
-                <param name="android-package" value="edu.uic.udptransmit.UDPTransmit"/>
+                <param name="android-package" value="edu.uic.cordova.updtransmit"/>
             </feature>
         </config-file>
 		<source-file src="src/android/UDPTransmit.java" target-dir="src/edu/uic/udptransmit/" />

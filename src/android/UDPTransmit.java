@@ -19,7 +19,7 @@
 
 // This plugin sends UDP packets.
 
-package edu.uic.travelmidwest.cordova;
+package edu.uic.udptransmit;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;

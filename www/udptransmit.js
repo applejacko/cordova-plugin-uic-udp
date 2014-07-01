@@ -13,8 +13,8 @@ module.exports = {
 	
 initialize: function(host, port) {
 	cordova.exec(
-				 function(){alert("success initializing");},
-				 function(error){alert("error initializing: " + error);},
+				 function(){console.log("success initializing UDP transmitter");},
+				 function(error){console.log("error initializing UDP transmitter: " + error);},
 				 "UDPTransmit",
 				 "initialize",
 				 [host, port]);
@@ -23,8 +23,8 @@ initialize: function(host, port) {
 
 sendMessage: function(message) {
 	cordova.exec(
-				 function(){alert("success sending message");},
-				 function(error){alert("error sending message: " + error);},
+				 function(){console.log("success sending message via UDP");},
+				 function(error){console.log("error sending message via UDP: " + error);},
 				 "UDPTransmit",
 				 "sendMessage",
 				 [message]);

@@ -46,13 +46,33 @@ public class UDPTransmit extends CordovaPlugin {
 	
 	// Handles and dispatches "exec" calls from the JS interface (udptransmit.js)
 	@Override
-	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+	public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
 		if("initialize".equals(action)) {
 			this.initialize(args.getString(0), args.getInt(1), callbackContext);
 			return true;
 		}
 		else if("sendMessage".equals(action)) {
-			this.sendMessage(args.getString(0), callbackContext);
+			final String message = args.getString(0);
+			// Run the UDP transmission on its own thread (it fails on some Android environments if run on the same thread)
+			cordova.getThreadPool().execute(new Runnable() {
+            	public void run() {
+            		this.sendMessage(message, callbackContext);
+            	}
+ 				private void sendMessage(String data, CallbackContext callbackContext) {
+					byte[] bytes = data.getBytes();
+					datagramPacket.setData(bytes);
+					try {
+						datagramSocket.send(datagramPacket);
+						callbackContext.success("Success transmitting UDP packet: " + datagramPacket);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						callbackContext.error("Error transmitting UDP packet: " + datagramPacket);
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			//			this.sendMessage(args.getString(0), callbackContext);
 			return true;
 		}
 		
@@ -85,17 +105,17 @@ public class UDPTransmit extends CordovaPlugin {
 		}
 	}
 	
-	public void sendMessage(String data, CallbackContext callbackContext) {
-		byte[] bytes = data.getBytes();
-		datagramPacket.setData(bytes);
-		try {
-			datagramSocket.send(datagramPacket);
-			callbackContext.success("Success transmitting UDP packet: " + datagramPacket);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			callbackContext.error("Error transmitting UDP packet: " + datagramPacket);
-			e.printStackTrace();
-		}
-	}
+	//	public void sendMessage(String data, CallbackContext callbackContext) {
+	//		byte[] bytes = data.getBytes();
+	//		datagramPacket.setData(bytes);
+	//		try {
+	//			datagramSocket.send(datagramPacket);
+	//			callbackContext.success("Success transmitting UDP packet: " + datagramPacket);
+	//		} catch (IOException e) {
+	//			// TODO Auto-generated catch block
+	//			callbackContext.error("Error transmitting UDP packet: " + datagramPacket);
+	//			e.printStackTrace();
+	//		}
+	//	}
 	
 }

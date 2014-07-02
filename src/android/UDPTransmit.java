@@ -48,7 +48,39 @@ public class UDPTransmit extends CordovaPlugin {
 	@Override
 	public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
 		if("initialize".equals(action)) {
-			this.initialize(args.getString(0), args.getInt(1), callbackContext);
+			final String host = args.getString(0);
+			final int port = args.getInt(1);
+			// Run the UDP transmitter initialization on its own thread (just in case, see sendMessage comment)
+			cordova.getThreadPool().execute(new Runnable() {
+            	public void run() {
+            		this.initialize(host, port, callbackContext);
+            	}
+            	private void initialize(String host, int port, CallbackContext callbackContext) {
+            		// create packet
+            		InetAddress address = null;
+            		try {
+            			address = InetAddress.getByName(host);
+            		} catch (UnknownHostException e) {
+            			// TODO Auto-generated catch block
+            			e.printStackTrace();
+            		}
+            		
+            		byte[] bytes= new byte[0];
+            		datagramPacket = new DatagramPacket(bytes, 0, address, port);
+					
+            		// create socket
+            		try {
+            			datagramSocket = new DatagramSocket();
+            			callbackContext.success("Success initializing UDP transmitter using datagram socket: " + datagramSocket);
+						
+            		} catch (SocketException e) {
+            			callbackContext.error("Error initializing UDP transmitter using datagram socket: " + datagramSocket);
+            			// TODO Auto-generated catch block
+            			e.printStackTrace();
+            		}
+            	}
+            });
+ 			// this.initialize(args.getString(0), args.getInt(1), callbackContext);
 			return true;
 		}
 		else if("sendMessage".equals(action)) {
@@ -79,31 +111,34 @@ public class UDPTransmit extends CordovaPlugin {
 		return false;
 	}
 	
-	public void initialize(String host, int port, CallbackContext callbackContext) {
-		
-		// create packet
-		InetAddress address = null;
-		try {
-			address = InetAddress.getByName(host);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		byte[] bytes= new byte[0];
-		datagramPacket = new DatagramPacket(bytes, 0, address, port);
-		
-		// create socket
-		try {
-			datagramSocket = new DatagramSocket();
-			callbackContext.success("Success initializing UDP transmitter using datagram socket: " + datagramSocket);
-			
-		} catch (SocketException e) {
-			callbackContext.error("Error initializing UDP transmitter using datagram socket: " + datagramSocket);
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+	
+	
+	
+	//	public void initialize(String host, int port, CallbackContext callbackContext) {
+	//
+	//		// create packet
+	//		InetAddress address = null;
+	//		try {
+	//			address = InetAddress.getByName(host);
+	//		} catch (UnknownHostException e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		}
+	//
+	//		byte[] bytes= new byte[0];
+	//		datagramPacket = new DatagramPacket(bytes, 0, address, port);
+	//
+	//		// create socket
+	//		try {
+	//			datagramSocket = new DatagramSocket();
+	//			callbackContext.success("Success initializing UDP transmitter using datagram socket: " + datagramSocket);
+	//
+	//		} catch (SocketException e) {
+	//			callbackContext.error("Error initializing UDP transmitter using datagram socket: " + datagramSocket);
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		}
+	//	}
 	
 	//	public void sendMessage(String data, CallbackContext callbackContext) {
 	//		byte[] bytes = data.getBytes();

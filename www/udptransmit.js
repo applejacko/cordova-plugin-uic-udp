@@ -13,8 +13,11 @@ module.exports = {
 	
 initialize: function(host, port) {
 	cordova.exec(
-				 function(){console.log("success initializing UDP transmitter");},
-				 function(error){console.log("error initializing UDP transmitter: " + error);},
+				 // To access the success and error callbacks for initialization, these two functions should be in your project:
+				 // UDPTransmitterInitializationSuccess(success)
+				 // UDPTransmitterInitializationError(error)
+				 function(success){UDPTransmitterInitializationSuccess(success);},
+				 function(error){UDPTransmitterInitializationError(error);},
 				 "UDPTransmit",
 				 "initialize",
 				 [host, port]);
@@ -23,8 +26,11 @@ initialize: function(host, port) {
 
 sendMessage: function(message) {
 	cordova.exec(
-				 function(){console.log("success sending message via UDP");},
-				 function(error){console.log("error sending message via UDP: " + error);},
+				 // To access the success and error callbacks for packet transmission, these two functions should be in your project:
+				 // UDPTransmissionSuccess(success)
+				 // UDPTransmissionError(error)
+				 function(success){UDPTransmissionSuccess(success);},
+				 function(error){UDPTransmissionError(error);},
 				 "UDPTransmit",
 				 "sendMessage",
 				 [message]);

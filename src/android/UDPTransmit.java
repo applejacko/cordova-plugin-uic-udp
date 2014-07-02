@@ -46,20 +46,20 @@ public class UDPTransmit extends CordovaPlugin {
 	
 	// Handles and dispatches "exec" calls from the JS interface (udptransmit.js)
 	@Override
-	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {		
+	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 		if("initialize".equals(action)) {
-			this.initialize(args.getString(0), args.getInt(1));
+			this.initialize(args.getString(0), args.getInt(1), callbackContext);
 			return true;
 		}
 		else if("sendMessage".equals(action)) {
-			this.sendMessage(args.getString(0));
+			this.sendMessage(args.getString(0), callbackContext);
 			return true;
 		}
 		
 		return false;
 	}
 	
-	public void initialize(String host, int port) {
+	public void initialize(String host, int port, CallbackContext callbackContext) {
 		
 		// create packet
 		InetAddress address = null;
@@ -72,23 +72,28 @@ public class UDPTransmit extends CordovaPlugin {
 		
 		byte[] bytes= new byte[0];
 		datagramPacket = new DatagramPacket(bytes, 0, address, port);
-
+		
 		// create socket
 		try {
 			datagramSocket = new DatagramSocket();
+			callbackContext.success("Success initializing UDP transmitter using datagram socket: " + datagramSocket);
+			
 		} catch (SocketException e) {
+			callbackContext.error("Error initializing UDP transmitter using datagram socket: " + datagramSocket);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void sendMessage(String data) {
+	public void sendMessage(String data, CallbackContext callbackContext) {
 		byte[] bytes = data.getBytes();
 		datagramPacket.setData(bytes);
 		try {
 			datagramSocket.send(datagramPacket);
+			callbackContext.success("Success transmitting UDP packet: " + datagramPacket);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			callbackContext.error("Error transmitting UDP packet: " + datagramPacket);
 			e.printStackTrace();
 		}
 	}

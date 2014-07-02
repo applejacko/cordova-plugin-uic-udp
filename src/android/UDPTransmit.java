@@ -80,8 +80,7 @@ public class UDPTransmit extends CordovaPlugin {
             		}
             	}
             });
- 			// this.initialize(args.getString(0), args.getInt(1), callbackContext);
-			return true;
+ 			return true;
 		}
 		else if("sendMessage".equals(action)) {
 			final String message = args.getString(0);
@@ -103,54 +102,8 @@ public class UDPTransmit extends CordovaPlugin {
 					}
 				}
 			});
-			
-			//			this.sendMessage(args.getString(0), callbackContext);
 			return true;
 		}
-		
 		return false;
 	}
-	
-	
-	
-	
-	//	public void initialize(String host, int port, CallbackContext callbackContext) {
-	//
-	//		// create packet
-	//		InetAddress address = null;
-	//		try {
-	//			address = InetAddress.getByName(host);
-	//		} catch (UnknownHostException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//
-	//		byte[] bytes= new byte[0];
-	//		datagramPacket = new DatagramPacket(bytes, 0, address, port);
-	//
-	//		// create socket
-	//		try {
-	//			datagramSocket = new DatagramSocket();
-	//			callbackContext.success("Success initializing UDP transmitter using datagram socket: " + datagramSocket);
-	//
-	//		} catch (SocketException e) {
-	//			callbackContext.error("Error initializing UDP transmitter using datagram socket: " + datagramSocket);
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-	//	}
-	
-	//	public void sendMessage(String data, CallbackContext callbackContext) {
-	//		byte[] bytes = data.getBytes();
-	//		datagramPacket.setData(bytes);
-	//		try {
-	//			datagramSocket.send(datagramPacket);
-	//			callbackContext.success("Success transmitting UDP packet: " + datagramPacket);
-	//		} catch (IOException e) {
-	//			// TODO Auto-generated catch block
-	//			callbackContext.error("Error transmitting UDP packet: " + datagramPacket);
-	//			e.printStackTrace();
-	//		}
-	//	}
-	
 }

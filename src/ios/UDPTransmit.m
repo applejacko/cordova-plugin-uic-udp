@@ -40,15 +40,15 @@
 		
 		// Set the destination IP address
 		
+		const char * eitherIPAddressOrURL = ((NSString *)[command.arguments objectAtIndex:0]).cString;
 		// First, assume it's a ddd.ddd.ddd.ddd address
-		const char * ip_address = ((NSString *)[command.arguments objectAtIndex:0]).cString;
-		int result = inet_pton(AF_INET, ip_address, &broadcastAddr.sin_addr); // Set the broadcast IP address
+		int result = inet_pton(AF_INET, eitherIPAddressOrURL, &broadcastAddr.sin_addr); // Set the broadcast IP address
 		// If that failed, it might be in www.xxxyyyzzz.com domain name format
 		if (result != 1) {
-			struct hostent *host_entry = gethostbyname(ip_address);
-			char *domainName;
-			domainName = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0]));
-			result = inet_pton(AF_INET, domainName, &broadcastAddr.sin_addr);
+			struct hostent *host_entry = gethostbyname(eitherIPAddressOrURL);
+			char *ipAddressFromURL;
+			ipAddressFromURL = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0]));
+			result = inet_pton(AF_INET, ipAddressFromURL, &broadcastAddr.sin_addr);
 		}
 		
 		// NEED TO ADD MORE CODE TO CHECK STATUS CODES BEFORE READY FOR PRIME TIME!

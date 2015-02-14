@@ -32,15 +32,26 @@
 // Initializer for the packet and socket, takes a desination IP address and socket number
 - (void) initialize:(CDVInvokedUrlCommand*)command
 {
-    [self.commandDelegate runInBackground:^{
+	[self.commandDelegate runInBackground:^{
 		CDVPluginResult* pluginResult = nil;
 		// Allocate the memory
 		memset(&broadcastAddr, 0, sizeof broadcastAddr);
 		broadcastAddr.sin_family = AF_INET;
 		
 		// Set the destination IP address
+		
+		// First, assume it's a ddd.ddd.ddd.ddd address
 		const char * ip_address = ((NSString *)[command.arguments objectAtIndex:0]).cString;
-		inet_pton(AF_INET, ip_address, &broadcastAddr.sin_addr); // Set the broadcast IP address
+		int result = inet_pton(AF_INET, ip_address, &broadcastAddr.sin_addr); // Set the broadcast IP address
+		// If that failed, it might be in www.xxxyyyzzz.com domain name format
+		if (result != 1) {
+			struct hostent *host_entry = gethostbyname(ip_address);
+			char *domainName;
+			domainName = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0]));
+			result = inet_pton(AF_INET, domainName, &broadcastAddr.sin_addr);
+		}
+		
+		// NEED TO ADD MORE CODE TO CHECK STATUS CODES BEFORE READY FOR PRIME TIME!
 		
 		// Set the destination port #
 		NSUInteger thePort = [[command.arguments objectAtIndex:1] integerValue];
@@ -54,9 +65,9 @@
 		NSString* socket = [NSString stringWithFormat:@"%i", DatagramSocketC];
 		
 		if (DatagramSocketC != 0)
-		pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[@"Success initializing UDP transmitter using datagram socket: " stringByAppendingString:socket]];
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[@"Success initializing UDP transmitter using datagram socket: " stringByAppendingString:socket]];
 		else
-		pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[@"Error initializing UDP transmitter using datagram socket: " stringByAppendingString:socket]];
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[@"Error initializing UDP transmitter using datagram socket: " stringByAppendingString:socket]];
 		
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	}];
@@ -71,9 +82,9 @@
 		ssize_t result = sendto(DatagramSocketC, messageToSend, strlen(messageToSend), 0, (struct sockaddr*)&broadcastAddr, sizeof broadcastAddr);
 		
 		if (result != 0)
-		pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[@"Success transmitting UDP packet: " stringByAppendingString:[command.arguments objectAtIndex:0]]];
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[@"Success transmitting UDP packet: " stringByAppendingString:[command.arguments objectAtIndex:0]]];
 		else
-		pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[@"Error transmitting UDP packet: " stringByAppendingString:[command.arguments objectAtIndex:0]]];
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[@"Error transmitting UDP packet: " stringByAppendingString:[command.arguments objectAtIndex:0]]];
 		
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	}];

@@ -57,18 +57,22 @@
 				
 				// Convert ddd.ddd.ddd.ddd to binary form
 				result = inet_pton(AF_INET, ip_address_from_url, &broadcastAddr.sin_addr);
-
-				// Set the destination port #
-				NSUInteger thePort = [[command.arguments objectAtIndex:1] integerValue];
-				broadcastAddr.sin_port = htons(thePort); // Set port, e.g., 4445
-				
-				// 	Create the socket
-				DatagramSocketC = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
-				int broadcastEnable=1;
-				setsockopt(DatagramSocketC, SOL_SOCKET, SO_BROADCAST, &broadcastEnable, sizeof(broadcastEnable));
-				
-				successInitializingTransmitter = true;
 			}
+		}
+		
+		// If we could resolve it
+		if (result == 1) {
+			
+			// Set the destination port #
+			NSUInteger thePort = [[command.arguments objectAtIndex:1] integerValue];
+			broadcastAddr.sin_port = htons(thePort); // Set port, e.g., 4445
+			
+			// 	Create the socket
+			DatagramSocketC = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);
+			int broadcastEnable=1;
+			setsockopt(DatagramSocketC, SOL_SOCKET, SO_BROADCAST, &broadcastEnable, sizeof(broadcastEnable));
+			
+			successInitializingTransmitter = true;
 		}
 		
 		NSString* socket = [NSString stringWithFormat:@"%i", DatagramSocketC];

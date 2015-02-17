@@ -41,16 +41,16 @@ NOTES
 
 Note that initialization using the “www.mydomain.com” approach requires resolution of the named URL to a
 ddd.ddd.ddd.ddd-type IP address, which requires Internet access to a DNS server. The plug-in will return 
-an error if it does fail to resolve to an IP address, and in turn initialize the transmitter. Until the 
-initialization returns success in creating a transmitter, it will not attempt to send packets when 
-udptransmit.sendMessage() is called.
+an error if it does fail to resolve to an IP address, and in turn initialize the transmitter. 
 
-Regardless of this safety feature, is recommended that you test that the transmitter was properly initialized 
-via the success/error callbacks before sending packets. That way your code can try to initialize again
-before sending packets, if it failed the first time due to DNS resolution issues.
+Until the initialization returns success in creating a transmitter, it will not attempt to send packets 
+when udptransmit.sendMessage() is called. Regardless of this safety feature, is recommended that you test 
+that the transmitter was properly initialized via the success/error callbacks before sending packets. 
+That way your code can try to initialize again before sending packets, if it failed the first time due to 
+DNS resolution (i.e., due to being offline, generally) issues.
 
-If you want the transmitter to safely and “always” initialize (provided you send it a valid parameter) regardless 
-of Internet connection status, use the  "131.193.42.36" approach, which requires no DNS lookup, but of course 
-limits you to a fixed IP address instead of a URL.
+If you want the transmitter to safely and “always” initialize (provided you send it a valid address parameter) 
+regardless of Internet connection status, use the  "131.193.42.36" approach, which requires no DNS lookup, 
+but of course limits you to a fixed IP address instead of a URL.
 
 

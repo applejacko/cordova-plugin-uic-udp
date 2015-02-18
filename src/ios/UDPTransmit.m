@@ -110,4 +110,31 @@
 	}];
 }
 
+// Returns a ddd.ddd.ddd.ddd type IP address from a named URL host name of type whatever.mydomain.com
+- (void) resolveHostName:(CDVInvokedUrlCommand*)command
+{
+	[self.commandDelegate runInBackground:^{
+		
+		CDVPluginResult* pluginResult = nil;
+		Boolean nameResolved = false;
+		
+		char *ip_address_from_url = "";
+		const char * url = ((NSString *)[command.arguments objectAtIndex:0]).cString;
+		struct hostent *host_entry = gethostbyname(url);
+		if (host_entry != nil) {
+			ip_address_from_url = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0]));
+			nameResolved = true;
+		}
+		NSString* return_value = [[NSString alloc] initWithUTF8String:ip_address_from_url];
+		
+		if (nameResolved)
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:return_value];
+		else
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[@"Error resolving: " stringByAppendingString:[command.arguments objectAtIndex:0]]];
+		
+		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	}];
+
+}
+
 @end

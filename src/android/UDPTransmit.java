@@ -119,6 +119,32 @@ public class UDPTransmit extends CordovaPlugin {
 			});
 			return true;
 		}
+		else if("resolveHostName".equals(action)) {
+			final String url = args.getString(0);
+			// Run the UDP transmission on its own thread (it fails on some Android environments if run on the same thread)
+			cordova.getThreadPool().execute(new Runnable() {
+            	public void run() {
+            		this.resolveHostName(url, callbackContext);
+            	}
+ 				private void resolveHostName(String url, CallbackContext callbackContext) {
+	 				boolean hostNameResolved = false;
+            		InetAddress address = null;
+            		try {
+            			// 'host' can be a ddd.ddd.ddd.ddd or named URL, so doesn't always resolve
+            			address = InetAddress.getByName(url);
+            			hostNameResolved = true;
+            		} catch (UnknownHostException e) {
+            			// TODO Auto-generated catch block
+            			e.printStackTrace();
+            		}            		
+					if (hostNameResolved)
+						callbackContext.success(address.getHostAddress());
+					else
+						callbackContext.error("Error resolving host name: " + url);												
+				}
+			});
+			return true;
+		}
 		return false;
 	}
 }

@@ -30,5 +30,6 @@
 
 - (void)initialize:(CDVInvokedUrlCommand*)command;
 - (void)sendMessage:(CDVInvokedUrlCommand*)command;
+- (void)resolveHostName:(CDVInvokedUrlCommand*)command;
 
 @end

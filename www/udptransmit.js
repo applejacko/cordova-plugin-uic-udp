@@ -1,4 +1,4 @@
-var exec = require('cordova/exec');
+cordova.define("edu.uic.travelmidwest.cordova.udptransmit.udptransmit", function(require, exports, module) { var exec = require('cordova/exec');
 var platform = require('cordova/platform');
 
 // Start of cut and paste area (to put back in Git repo version of this file)
@@ -23,19 +23,34 @@ initialize: function(host, port) {
 				 [host, port]);
 	return true;
 },
-
+			   
 sendMessage: function(message) {
-	cordova.exec(
-				 // To access the success and error callbacks for packet transmission, these two functions should be in your project:
-				 // UDPTransmissionSuccess(success)
-				 // UDPTransmissionError(error)
-				 function(success){UDPTransmissionSuccess(success);},
-				 function(error){UDPTransmissionError(error);},
-				 "UDPTransmit",
-				 "sendMessage",
-				 [message]);
-	return true;
+cordova.exec(
+			// To access the success and error callbacks for packet transmission, these two functions should be in your project:
+			// UDPTransmissionSuccess(success)
+			// UDPTransmissionError(error)
+			function(success){UDPTransmissionSuccess(success);},
+			function(error){UDPTransmissionError(error);},
+			"UDPTransmit",
+			"sendMessage",
+			[message]);
+return true;
+},
+			   
+resolveHostName: function(ipAddress) {
+cordova.exec(
+			// To access the success and error callbacks for packet transmission, these two functions should be in your project:
+			// UDPResolveHostNameSuccess(success)
+			// UDPResolveHostNameError(error)
+			function(success){UDPResolveHostNameSuccess(success);},
+			function(error){UDPResolveHostNameError(error);},
+			"UDPTransmit",
+			"resolveHostName",
+			[ipAddress]);
+return true;
 }
 	
 };
 // End of cut and paste area
+
+});

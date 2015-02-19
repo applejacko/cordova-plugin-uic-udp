@@ -37,7 +37,7 @@ cordova.exec(
 return true;
 },
 			   
-resolveHostName: function(ipAddress) {
+resolveHostName: function(hostName) {
 cordova.exec(
 			// To access the success and error callbacks for packet transmission, these two functions should be in your project:
 			// UDPResolveHostNameSuccess(success)
@@ -46,7 +46,7 @@ cordova.exec(
 			function(error){UDPResolveHostNameError(error);},
 			"UDPTransmit",
 			"resolveHostName",
-			[ipAddress]);
+			[hostName]);
 return true;
 }
 	

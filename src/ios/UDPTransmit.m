@@ -125,7 +125,7 @@
 			ip_address_from_url = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0]));
 			nameResolved = true;
 		}
-		NSString* return_value = [[NSString alloc] initWithUTF8String:ip_address_from_url];
+		NSString* return_value = [NSString stringWithUTF8String:ip_address_from_url];
 		
 		if (nameResolved)
 			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:return_value];

@@ -134,7 +134,35 @@
 		
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	}];
-
 }
+
+// Returns a ddd.ddd.ddd.ddd type IP address from a named URL host name of type whatever.mydomain.com, plus the custom string sent in as a single string, pipe-delimired
+// e.g., "123.456.789.123|mystring" (this can be used to control waht your application does after the callback executes, since custom callbacks aren't possible with plugins)
+- (void) resolveHostNameWithUserDefinedCallbackString:(CDVInvokedUrlCommand*)command
+{
+	[self.commandDelegate runInBackground:^{
+		
+		CDVPluginResult* pluginResult = nil;
+		Boolean nameResolved = false;
+		
+		char *ip_address_from_url = "";
+		const char * url = ((NSString *)[command.arguments objectAtIndex:0]).cString;
+		struct hostent *host_entry = gethostbyname(url);
+		if (host_entry != nil) {
+			ip_address_from_url = inet_ntoa(*((struct in_addr *)host_entry->h_addr_list[0]));
+			nameResolved = true;
+		}
+		NSString* return_value = [NSString stringWithUTF8String:ip_address_from_url];
+		
+		if (nameResolved)
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[[return_value stringByAppendingString:@"|"]stringByAppendingString:[command.arguments objectAtIndex:1]]];
+		else
+			pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[[return_value stringByAppendingString:@"|"]stringByAppendingString:[command.arguments objectAtIndex:1]]];
+		
+		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	}];
+	
+}
+
 
 @end

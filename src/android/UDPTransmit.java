@@ -167,7 +167,7 @@ public class UDPTransmit extends CordovaPlugin {
 					if (hostNameResolved)
 						callbackContext.success(address.getHostAddress() + "|" + userString);
 					else
-						callbackContext.error(address.getHostAddress() + "|" + userString);												
+						callbackContext.error("|" + userString);												
 				}
 			});
 			return true;

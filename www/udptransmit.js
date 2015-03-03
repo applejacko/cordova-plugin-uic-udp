@@ -1,6 +1,3 @@
-cordova.define("edu.uic.travelmidwest.cordova.udptransmit.udptransmit", function(require, exports, module) { var exec = require('cordova/exec');
-var platform = require('cordova/platform');
-
 // Start of cut and paste area (to put back in Git repo version of this file)
 module.exports = {
 	
@@ -65,5 +62,3 @@ return true;
 	
 };
 // End of cut and paste area
-
-});

@@ -2,8 +2,8 @@
 module.exports = {
 	
 	// Order of parameters on all calls:
-	// - callback function
-	// - error function
+	// - success callback function
+	// - error callback function
 	// - native class name
 	// - native method name
 	// - arguments for method

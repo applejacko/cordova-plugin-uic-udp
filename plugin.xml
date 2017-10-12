@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="edu.uic.travelmidwest.cordova.udptransmit" version="1.0.8">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-uic-udp" version="1.0.9">
 	
 	<!-- Metadata ================================================================== -->
 
